@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import de.apoth.anderoids.logic.Messages.ChangeMessage;
 import de.apoth.anderoids.logic.entities.Entity;
 import de.apoth.anderoids.logic.entities.EntityCreator;
 import de.apoth.anderoids.logic.entities.EntityManager;
@@ -30,6 +29,8 @@ public class GameLogic{
 	private int numTicks = 0;
 	private static GameLogic obj;
 	private Integer playersSpaceShipID;
+	private MovementSystem myMovementSystem;
+	private CollisionSystem myCollisionSystem;
 	
 	
 	public static void setup(GameModes gameMode, ShipTypes shipType, Difficulties difficulty)
@@ -48,7 +49,7 @@ public class GameLogic{
 	}
 	private GameLogic()
 	{
-		//passedTime = 0;
+		this.numTicks = 0;
 		//changes = new LinkedList<ChangeMessage>();
 	}
 	
@@ -56,25 +57,41 @@ public class GameLogic{
 	
 	protected synchronized void step()
 	{
-		//passedTime += tickIntervallMsec;
-		
-		//changes.add(new TimeChangeMessage(passedTime));
-		
-		//move all objects
-
-		//check for collisions
-		
-		//check for objects leaving the boundary of vision
-		
-		//finally
 		numTicks++;
+
+		//1. get touch and rotation input
+		Position shipMovement = this.getSpaceshipMovement();
+		
+		//2. move objects
+		
+		//spaceship
+		this.myMovementSystem.moveObject(this.playersSpaceShipID,shipMovement);
+		
+		// and other objects
+		
+		// asteroids move implicitely
+		
+		//3. detect collisions
+		this.myCollisionSystem.checkCollisions();
+		
+		//4. handle events
+		
 	}
 	
-	private int getNumTicks()
+	private Position getSpaceshipMovement() {
+		// TODO check device angle
+		return new Position();
+	}
+
+	/*	private int getNumTicks()
 	{
 		int retu = this.numTicks;
 		this.numTicks = 0;
 		return retu;
+	}*/
+	public static int getElapsedTime()
+	{
+		return obj.numTicks;
 	}
 	/*private long getPassedTime()
 	{
@@ -88,9 +105,9 @@ public class GameLogic{
 	 * @param spaceShipID
 	 * @return
 	 */
-	public synchronized LinkedList<ChangeMessage> getVisibleChanges(int spaceShipID) {
+	public synchronized LinkedList<GuiUpdateEvent> getVisibleChanges(int spaceShipID) {
 		// TODO Auto-generated method stub
-		LinkedList<ChangeMessage> retu = new LinkedList<ChangeMessage>();
+		LinkedList<GuiUpdateEvent> retu = new LinkedList<GuiUpdateEvent>();
 		//retu.add(new TimeChangeMessage(this.getPassedTime()));
 	//	retu.add(new LogicStepCountMessage(this.getNumTicks()));
 		

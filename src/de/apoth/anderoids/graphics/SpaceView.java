@@ -6,9 +6,9 @@ import java.util.Random;
 
 import de.apoth.anderoids.logic.GameLogic;
 import de.apoth.anderoids.logic.GameModes;
+import de.apoth.anderoids.logic.GuiUpdateEvent;
 import de.apoth.anderoids.logic.Position;
 import de.apoth.anderoids.logic.ShipTypes;
-import de.apoth.anderoids.logic.Messages.ChangeMessage;
 import de.apoth.anderoids.logic.Messages.ChangeSetAssembler;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -87,7 +87,7 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 		this.mySpaceship.draw(canvas, m);
 		
 	}
-	protected void updateObjects(List<ChangeMessage> changes)
+	protected void updateObjects(List<GuiUpdateEvent> changes)
 	{
 		//die ersten zwei nachrichten abfragen
 		//die erste ist immer die TimeChangeMessage

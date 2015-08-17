@@ -28,6 +28,9 @@ public class EntityCreator {
 		return retu;
 	}
 	
+	//TODO makeAsteroids
+	//note that it wont have a MovementComponent but an ImplicitPositionComponent
+	
 	private EntityCreator()
 	{
 		
