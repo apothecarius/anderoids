@@ -66,6 +66,8 @@ public class SpaceActivity extends Activity implements SensorEventListener{
 		
 		temp = this.getIntent().getIntExtra(GameOptionNames.difficulty, 1337);
 		assert(temp != 1337);
+		assert(temp < Difficulties.values().length);
+		
 		Difficulties difficulty = Difficulties.values()[temp];
 		
 		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);

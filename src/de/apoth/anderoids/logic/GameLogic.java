@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import de.apoth.anderoids.logic.entities.Entity;
 import de.apoth.anderoids.logic.entities.EntityCreator;
 import de.apoth.anderoids.logic.entities.EntityManager;
+import de.apoth.anderoids.logic.input.AccelerometerSystem;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
@@ -31,14 +32,18 @@ public class GameLogic{
 	private Integer playersSpaceShipID;
 	private MovementSystem myMovementSystem;
 	private CollisionSystem myCollisionSystem;
+	private EntityManager myEntityManager;
+	private float[] currentDeviceAngle = null;
 	
 	
 	public static void setup(GameModes gameMode, ShipTypes shipType, Difficulties difficulty)
 	{
-		GameLogic obj = GameLogic.get();
+		obj = GameLogic.get();
 		RuleSystem.setup(gameMode);
 		Entity spaceShip = EntityCreator.makeSpaceShip(shipType);
-		obj.playersSpaceShipID = EntityManager.get().addEntity(spaceShip);
+		
+		obj.playersSpaceShipID = obj.myEntityManager.addEntity(spaceShip);
+		
 	}
 	
 	public static GameLogic get()
@@ -50,7 +55,11 @@ public class GameLogic{
 	private GameLogic()
 	{
 		this.numTicks = 0;
-		//changes = new LinkedList<ChangeMessage>();
+		this.currentDeviceAngle = new float[3];
+		
+		this.myCollisionSystem = new CollisionSystem();
+		this.myMovementSystem = new MovementSystem();
+		this.myEntityManager = new EntityManager(myMovementSystem,myCollisionSystem);
 	}
 	
 	
@@ -61,6 +70,7 @@ public class GameLogic{
 
 		//1. get touch and rotation input
 		Position shipMovement = this.getSpaceshipMovement();
+		System.out.println(shipMovement);
 		
 		//2. move objects
 		
@@ -79,8 +89,8 @@ public class GameLogic{
 	}
 	
 	private Position getSpaceshipMovement() {
-		// TODO check device angle
-		return new Position();
+		// TODO refine what is written into currentDeviceAngle
+		return new Position(this.currentDeviceAngle[0], this.currentDeviceAngle[1]);
 	}
 
 	/*	private int getNumTicks()
@@ -97,7 +107,17 @@ public class GameLogic{
 	{
 		return this.passedTime;
 	}*/
-	
+	public void setDeviceAngle(float[] angle)
+	{
+		assert(angle != null);
+		assert(currentDeviceAngle != null);
+		assert(angle.length == 3);
+		for (int i = 0; i < angle.length; i++) {
+			this.currentDeviceAngle[i] = angle[i];
+		}
+		return;
+	}
+
 	
 	/**
 	 * returns all changes to objects that are visible to the player with the ship of the given ID

@@ -56,6 +56,8 @@ public class StartgameActivity extends Activity{
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
+				
+				//set difficulty
 				int diff;
 				if(progress == 0)
 					diff = R.drawable.start_easy;
@@ -64,7 +66,12 @@ public class StartgameActivity extends Activity{
 				else
 					diff = R.drawable.start_hard;
 				
-				setDifficulty(diff);
+				assert(diff == R.drawable.start_easy || 
+						diff == R.drawable.start_medium ||
+						diff == R.drawable.start_hard);
+				startGameButton.setImageResource(diff);
+				selectedDifficulty = progress;
+				System.out.println(selectedDifficulty);
 				
 			}
 		});
@@ -90,14 +97,10 @@ public class StartgameActivity extends Activity{
 		return true;
 	}
 
-	@SuppressLint("Assert")
+/*	@SuppressLint("Assert")
 	public void setDifficulty(int diff)
 	{
-		assert(diff == R.drawable.start_easy || 
-				diff == R.drawable.start_medium ||
-				diff == R.drawable.start_hard);
-		this.startGameButton.setImageResource(diff);
-		this.selectedDifficulty = diff;
-	}
+		
+	}*/
 
 }

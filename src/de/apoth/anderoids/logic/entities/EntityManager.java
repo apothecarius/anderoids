@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.apoth.anderoids.logic.CollisionSystem;
+import de.apoth.anderoids.logic.GameLogic;
+import de.apoth.anderoids.logic.MovementSystem;
+
 public class EntityManager {
 	
 	private static EntityManager obj;
@@ -15,17 +19,33 @@ public class EntityManager {
 	//so in case freeKeys is empty, use largestKey+1 and increment
 	private Integer largestKey = 0;
 	
-	public static EntityManager get()
+	
+	private MovementSystem hisMovementSystem = null;
+	private CollisionSystem hisCollisionSystem = null;
+	
+/*	public static EntityManager get()
 	{
 		if(obj == null)
 			obj = new EntityManager();
 		return obj;
-	}
-	private EntityManager()
+	}*/
+	public EntityManager(MovementSystem mo, CollisionSystem co)
 	{
 		entities = new HashMap<Integer, Entity>();
 		freeKeys = new LinkedList<Integer>();
+		hisCollisionSystem = co;
+		hisMovementSystem = mo;
 	}
+/*	private boolean _logicSystemsSet = false;
+	public void setLogicSystems(MovementSystem mo, CollisionSystem co)
+	{
+		assert(! _logicSystemsSet); //only call this function exactly once
+		
+		hisCollisionSystem = co;
+		hisMovementSystem = mo;
+		
+		this._logicSystemsSet = true;
+	}*/
 	
 	public boolean entityHasComponent(Integer id, Class comp)
 	{
@@ -56,6 +76,19 @@ public class EntityManager {
 		}
 		assert(! this.entities.containsKey(key));
 		this.entities.put(key, ent);
+		
+		if(ent.containsKey(MovementComponent.class))
+		{
+			this.hisMovementSystem.addComponent(key, ent.get(MovementComponent.class));
+		}
+		if(ent.containsKey(CollisionComponent.class))
+		{
+			this.hisCollisionSystem.addComponent(key, ent.get(CollisionComponent.class));
+		}
+		//TODO add components as added
+		
+		
+		
 		return key;
 	}
 }

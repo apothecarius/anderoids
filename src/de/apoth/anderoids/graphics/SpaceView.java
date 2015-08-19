@@ -10,6 +10,7 @@ import de.apoth.anderoids.logic.GuiUpdateEvent;
 import de.apoth.anderoids.logic.Position;
 import de.apoth.anderoids.logic.ShipTypes;
 import de.apoth.anderoids.logic.Messages.ChangeSetAssembler;
+import de.apoth.anderoids.logic.input.AccelerometerSystem;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -38,7 +39,6 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 	{
 		super(context);
 		passedTime = 0;
-		
 		screenRect = new Rect();
 		getWindowVisibleDisplayFrame(screenRect);
 		BitmapManager.setup(this);
@@ -136,11 +136,15 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 		private SpaceView _panel;
 		private SurfaceHolder _surfaceHolder;
 		private boolean _run = false;
+		private AccelerometerSystem myAccelerometerSystem = null;
 		
 		
 		public SpaceThread(SurfaceHolder surfaceHolder, SpaceView panel) {
 			_surfaceHolder = surfaceHolder;
 			_panel = panel;
+			
+			AccelerometerSystem.checkForAccelerometer(panel.getContext());
+			this.myAccelerometerSystem = new AccelerometerSystem(panel.getContext());
 		}
 		public void setRunning(boolean run) {
 			_run = run;
@@ -152,6 +156,8 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 			Canvas c;
 			while(_run)
 			{
+				
+				GameLogic.get().setDeviceAngle(this.myAccelerometerSystem.getDeviceAngle());
 				//GameLogic.get().getMySpaceShipID();
 				_panel.updateObjects(ChangeSetAssembler.getChanges(
 						GameLogic.get().getMySpaceShipID()));
