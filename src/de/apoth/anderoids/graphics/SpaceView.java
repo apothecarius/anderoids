@@ -15,7 +15,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DrawFilter;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;;
@@ -83,7 +85,7 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 		Matrix m = new Matrix();
 		m.setRotate(this.mySpaceship.getAngle()*360);
 		m.postTranslate(getScreenCenterPosition().getX(), 
-				getScreenCenterPosition().getY());	
+				getScreenCenterPosition().getY());
 		this.mySpaceship.draw(canvas, m);
 		
 	}
@@ -181,6 +183,7 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 				_panel.onDraw(c);
 				_surfaceHolder.unlockCanvasAndPost(c);
 			}
+			myAccelerometerSystem.deactivateSystem(getContext());
 		}
 		
 	}/* class SpaceThread ends here */

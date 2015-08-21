@@ -70,14 +70,13 @@ public class GameLogic{
 
 		//1. get touch and rotation input
 		Position shipMovement = this.getSpaceshipMovement();
-		System.out.println(shipMovement);
 		
 		//2. move objects
-		
-		//spaceship
+			//spaceship
 		this.myMovementSystem.moveObject(this.playersSpaceShipID,shipMovement);
 		
 		// and other objects
+			//missiles
 		
 		// asteroids move implicitely
 		

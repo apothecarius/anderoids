@@ -14,6 +14,9 @@ public class AccelerometerSystem implements SensorEventListener{
 	private static boolean systemRunning = false;
 	//private SensorManager sensorManager = null;
 	
+	//TODO even out the angleBuffer with the previous value (and write to the previous value)
+	//so that jittering of the sensor is countered
+	float[] prevAngleBuffer;
 	float[] angleBuffer; 
 	
 	
@@ -42,6 +45,11 @@ public class AccelerometerSystem implements SensorEventListener{
 	{
 		assert(accelIsSupported);
 		this.angleBuffer = new float[3];
+		this.prevAngleBuffer = new float[3];
+		for (int i = 0; i < angleBuffer.length; i++) {
+			angleBuffer[i] = 0.0f;
+			prevAngleBuffer[i] = 0.0f;
+		}
 		
 		SensorManager sensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
         List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
