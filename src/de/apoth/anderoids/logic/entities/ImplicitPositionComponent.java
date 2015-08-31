@@ -2,6 +2,7 @@ package de.apoth.anderoids.logic.entities;
 
 import de.apoth.anderoids.logic.GameLogic;
 import de.apoth.anderoids.logic.Position;
+import de.apoth.anderoids.logic.Time;
 /**
  * This component allows for linear movement to be calculated on demand, 
  * which reduces the amount of objects moved in each logic tick. 
@@ -14,7 +15,7 @@ import de.apoth.anderoids.logic.Position;
 public class ImplicitPositionComponent extends PositionComponent {
 
 	private Position inertia = null;
-	private float creationTime;
+	private Time creationTime;
 	public void setInertia(Position p)
 	{
 		this.inertia = p;
@@ -22,17 +23,17 @@ public class ImplicitPositionComponent extends PositionComponent {
 	public ImplicitPositionComponent(Position p) {
 		super(p);
 		this.inertia = new Position();
-		this.creationTime = GameLogic.getElapsedTime();
+		this.creationTime = GameLogic.get().getCurrentTime();
 	}
 	
 	@Override
 	public Position getPosition()
 	{
-		float time = GameLogic.getElapsedTime();
-		time -= this.creationTime;
-		assert(time >= -0.0001f); //prevent rounding errors
+		Time time = GameLogic.get().getCurrentTime();
+		time = Time.getDifference(time, this.creationTime);
+		assert(time.t >= 0.0f); //prevent rounding errors
 		Position retu = new Position(this.p);
-		retu.addWithFactor(inertia, time);
+		retu.addWithFactor(this.inertia, time.t);
 		return retu;
 	}
 

@@ -9,7 +9,15 @@ package de.apoth.anderoids.gui;
 
 import java.util.Timer;
 
-import de.apoth.anderoids.R;
+import android.app.Activity;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import de.apoth.anderoids.graphics.SpaceView;
 import de.apoth.anderoids.logic.Difficulties;
 import de.apoth.anderoids.logic.GameLogic;
@@ -17,19 +25,6 @@ import de.apoth.anderoids.logic.GameModes;
 import de.apoth.anderoids.logic.GameOptionNames;
 import de.apoth.anderoids.logic.LogicTimerTask;
 import de.apoth.anderoids.logic.ShipTypes;
-import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.view.Menu;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.Button;
 
 public class SpaceActivity extends Activity implements SensorEventListener{
 

@@ -1,11 +1,16 @@
 package de.apoth.anderoids.logic;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.util.Pair;
 import de.apoth.anderoids.logic.entities.Component;
+import de.apoth.anderoids.logic.events.Event;
 
+@SuppressLint("Assert")
 public abstract class AbstractSystem {
 	
 	/**
@@ -48,5 +53,11 @@ public abstract class AbstractSystem {
 		{
 			return retu;
 		}
+	}
+	public abstract List<Pair<Time,Event>> handleEvent(Event ev);
+	
+	public Collection<Component> getComponents()
+	{
+		return this.components.values();
 	}
 }

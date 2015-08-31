@@ -160,9 +160,12 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 			{
 				
 				GameLogic.get().setDeviceAngle(this.myAccelerometerSystem.getDeviceAngle());
+				//TODO measure time it took the device to render a frame and adjust gamelogic stepsize
+				GameLogic.get().elapseTime();
+				GameLogic.get().executeEventsUntilNow();
+				
 				//GameLogic.get().getMySpaceShipID();
-				_panel.updateObjects(ChangeSetAssembler.getChanges(
-						GameLogic.get().getMySpaceShipID()));
+				_panel.updateObjects(ChangeSetAssembler.getChanges(GameLogic.get().getMySpaceShipID()));
 				
 				c = null;
 				
@@ -183,6 +186,8 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 				_panel.onDraw(c);
 				_surfaceHolder.unlockCanvasAndPost(c);
 			}
+			
+			//TODO cleanup when the activity is closed due to game end
 			myAccelerometerSystem.deactivateSystem(getContext());
 		}
 		

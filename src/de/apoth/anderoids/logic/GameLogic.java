@@ -1,18 +1,13 @@
 package de.apoth.anderoids.logic;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 
 import de.apoth.anderoids.logic.entities.Entity;
 import de.apoth.anderoids.logic.entities.EntityCreator;
 import de.apoth.anderoids.logic.entities.EntityManager;
-import de.apoth.anderoids.logic.input.AccelerometerSystem;
-
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import de.apoth.anderoids.logic.events.Event;
+import de.apoth.anderoids.logic.events.EventManager;
+import de.apoth.anderoids.logic.events.TimeChangedEvent;
 
 /**
  * This class is a singleton, so that the implementation can be switched out for network games.
@@ -32,18 +27,24 @@ public class GameLogic{
 	private Integer playersSpaceShipID;
 	private MovementSystem myMovementSystem;
 	private CollisionSystem myCollisionSystem;
+	private RuleSystem myRuleSystem;
+	private GuiStubSystem myGuiStub;
 	private EntityManager myEntityManager;
+	private EventManager myEventManager;
 	private float[] currentDeviceAngle = null;
-	
+	private Time currentTime;
+	private static GameModes activeGameMode;
+	private static boolean _isSetup = false;
 	
 	public static void setup(GameModes gameMode, ShipTypes shipType, Difficulties difficulty)
 	{
 		obj = GameLogic.get();
-		RuleSystem.setup(gameMode);
+		activeGameMode = gameMode;
+//		RuleSystem.setup(gameMode);
 		Entity spaceShip = EntityCreator.makeSpaceShip(shipType);
 		
 		obj.playersSpaceShipID = obj.myEntityManager.addEntity(spaceShip);
-		
+		_isSetup = true;
 	}
 	
 	public static GameLogic get()
@@ -54,58 +55,40 @@ public class GameLogic{
 	}
 	private GameLogic()
 	{
-		this.numTicks = 0;
+		assert(_isSetup);
+//		this.numTicks = 0;
+		this.currentTime = new Time(0.0f);
 		this.currentDeviceAngle = new float[3];
 		
 		this.myCollisionSystem = new CollisionSystem();
 		this.myMovementSystem = new MovementSystem();
 		this.myEntityManager = new EntityManager(myMovementSystem,myCollisionSystem);
+		this.myEventManager = new EventManager();
+		this.myGuiStub = new GuiStubSystem();
+		if(activeGameMode == GameModes.Hunt)
+			this.myRuleSystem = new HuntRuleSystem();
+		else
+			this.myRuleSystem = new SurvivalRuleSystem();
 	}
 	
 	
 	
-	protected synchronized void step()
+	public synchronized void executeEventsUntilNow()
 	{
-		numTicks++;
-
-		//1. get touch and rotation input
-		Position shipMovement = this.getSpaceshipMovement();
-		
-		//2. move objects
-			//spaceship
-		this.myMovementSystem.moveObject(this.playersSpaceShipID,shipMovement);
-		
-		// and other objects
-			//missiles
-		
-		// asteroids move implicitely
-		
-		//3. detect collisions
-		this.myCollisionSystem.checkCollisions();
-		
-		//4. handle events
-		
+		Event ev = this.myEventManager.getCurrentEvent();
+		if(ev == null)
+			return;
+		if(ev.concernsSystem(MovementSystem.class))
+			this.myMovementSystem.handleEvent(ev);
+		if(ev.concernsSystem(CollisionSystem.class))
+			this.myCollisionSystem.handleEvent(ev);
+		return;
 	}
 	
-	private Position getSpaceshipMovement() {
-		// TODO refine what is written into currentDeviceAngle
-		return new Position(this.currentDeviceAngle[0], this.currentDeviceAngle[1]);
+	public Time getCurrentTime()
+	{
+		return this.currentTime;
 	}
-
-	/*	private int getNumTicks()
-	{
-		int retu = this.numTicks;
-		this.numTicks = 0;
-		return retu;
-	}*/
-	public static int getElapsedTime()
-	{
-		return obj.numTicks;
-	}
-	/*private long getPassedTime()
-	{
-		return this.passedTime;
-	}*/
 	public void setDeviceAngle(float[] angle)
 	{
 		assert(angle != null);
@@ -115,6 +98,10 @@ public class GameLogic{
 			this.currentDeviceAngle[i] = angle[i];
 		}
 		return;
+	}
+	public float[] getDeviceAngle()
+	{
+		return this.currentDeviceAngle;
 	}
 
 	
@@ -146,6 +133,25 @@ public class GameLogic{
 
 	public Integer getMySpaceShipID() {
 		return this.playersSpaceShipID;
+	}
+
+	
+	public Time getTime()
+	{
+		return this.currentTime;
+	}
+	public void elapseTime(Time t) {
+		assert(this.currentTime != null);
+		Time newTime = new Time(this.currentTime,t);
+		Event timeChange = new TimeChangedEvent(this.currentTime, newTime);
+		this.currentTime = newTime;
+		this.myEventManager.addEventNow(timeChange);
+		this.myEventManager.increaseTimeTo(this.currentTime);
+		
+	}
+	public void elapseTime()
+	{
+		this.elapseTime(new Time(0.02f));
 	}
 	
 	

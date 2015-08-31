@@ -1,10 +1,14 @@
 package de.apoth.anderoids.logic;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
-import de.apoth.anderoids.logic.Events.CollisionEvent;
+import android.util.Pair;
+
 import de.apoth.anderoids.logic.entities.CollisionComponent;
+import de.apoth.anderoids.logic.events.CollisionEvent;
+import de.apoth.anderoids.logic.events.Event;
 
 public class CollisionSystem extends AbstractSystem{
 	
@@ -20,6 +24,13 @@ public class CollisionSystem extends AbstractSystem{
 		
 		//
 		return collisions;
+	}
+
+	@Override
+	public List<Pair<Time, Event>> handleEvent(Event ev) {
+		return null;
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

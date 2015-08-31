@@ -1,28 +1,40 @@
 package de.apoth.anderoids.logic;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import android.util.Pair;
+import de.apoth.anderoids.logic.events.Event;
+import de.apoth.anderoids.logic.events.TimeChangedEvent;
+
 public class RuleSystem extends AbstractSystem {
 
-	private static RuleSystem obj;
 	protected RuleSystem() {
 		super(null);
-		// TODO Auto-generated constructor stub
 	}
 	
-	public static void setup(GameModes m)
+
+	@Override
+	public List<Pair<Time, Event>> handleEvent(Event ev) 
 	{
-		if(m ==GameModes.Survival)
+		List<Pair<Time, Event>> retu = new LinkedList<Pair<Time,Event>>();
+		
+		if(ev.getClass() == TimeChangedEvent.class)
 		{
-			obj = new SurvivalRuleSystem();
+			TimeChangedEvent tev = (TimeChangedEvent) ev;
+			Time time = Time.getDifference(tev.getNewTime(), tev.getOldTime());
+			float tDiff = time.t;
+			
+			float[] angle = GameLogic.get().getDeviceAngle();
+			Position pDiff = new Position(angle[0]*tDiff, angle[1]*tDiff);
+			Event moveSpaceShip = new MoveObjectEvent(GameLogic.get().getMySpaceShipID(),pDiff);
+			retu.add(new Pair<Time, Event>(null, moveSpaceShip));
+			
+			//TODO also inform the GUI that the perspective must move, possibly differently from the spaceship
+			//the movement system does not do that, because it wont know that this is the spaceship
 		}
-		else if(m == GameModes.Hunt)
-		{
-			obj = new HuntRuleSystem();
-		}
-	}
-	public static RuleSystem get()
-	{
-		assert(obj != null);
-		return obj;
+		
+		return retu;
 	}
 
 }
