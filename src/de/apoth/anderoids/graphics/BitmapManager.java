@@ -62,7 +62,7 @@ public class BitmapManager {
 	
 	public Bitmap getSpaceshipPic(ShipTypes s)
 	{
-		assert(s == ShipTypes.Fighter);//XXX
+		assert(s == ShipTypes.Fighter);//TODO add more spaceships
 		return fighterPic;
 		
 	}

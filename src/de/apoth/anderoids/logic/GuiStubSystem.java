@@ -1,8 +1,10 @@
 package de.apoth.anderoids.logic;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import android.util.Pair;
+import de.apoth.anderoids.logic.entities.EntityManager;
 import de.apoth.anderoids.logic.events.Event;
 
 /**
@@ -13,15 +15,29 @@ import de.apoth.anderoids.logic.events.Event;
  */
 public class GuiStubSystem extends AbstractSystem {
 
-	protected GuiStubSystem() {
-		super(null);
-		// TODO Auto-generated constructor stub
-	}
 
+
+	LinkedList<Event> allEvents = null;
+	public GuiStubSystem(EntityManager myEM) {
+		super(myEM);
+		this.allEvents = new LinkedList<Event>();
+	}
 	@Override
 	public List<Pair<Time, Event>> handleEvent(Event ev) {
-		// TODO Auto-generated method stub
+		this.allEvents.add(ev);
 		return null;
+	}
+	
+	/**
+	 * 
+	 * returns all added events and forgets them , 
+	 * so that they can only be retrieved once
+	 */
+	public LinkedList<Event> popAllGuiEvents()
+	{
+		LinkedList<Event> retu = this.allEvents;
+		this.allEvents = new LinkedList<Event>();
+		return retu;
 	}
 
 }

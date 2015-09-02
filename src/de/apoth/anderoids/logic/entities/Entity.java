@@ -10,6 +10,7 @@ public class Entity extends HashMap<Class,Component>{
 	}
 	
 	/**
+	 * @Deprecated not necessary anymore
 	 * "destroys" the object, by telling the systems to ignore/forget it from this point on
 	 */
 	public void invalidate()

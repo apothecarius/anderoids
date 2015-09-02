@@ -126,7 +126,6 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -187,7 +186,7 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 				_surfaceHolder.unlockCanvasAndPost(c);
 			}
 			
-			//TODO cleanup when the activity is closed due to game end
+			// cleanup when the activity is closed due to game end
 			myAccelerometerSystem.deactivateSystem(getContext());
 		}
 		
@@ -230,7 +229,6 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 		try {
 			this.myThread.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

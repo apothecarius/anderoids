@@ -4,15 +4,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.util.Pair;
+import de.apoth.anderoids.logic.entities.EntityManager;
 import de.apoth.anderoids.logic.events.Event;
 import de.apoth.anderoids.logic.events.TimeChangedEvent;
 
 public class RuleSystem extends AbstractSystem {
 
-	protected RuleSystem() {
-		super(null);
-	}
 	
+
+	public RuleSystem(EntityManager myEM) {
+		super(myEM);
+	}
 
 	@Override
 	public List<Pair<Time, Event>> handleEvent(Event ev) 
@@ -30,8 +32,8 @@ public class RuleSystem extends AbstractSystem {
 			Event moveSpaceShip = new MoveObjectEvent(GameLogic.get().getMySpaceShipID(),pDiff);
 			retu.add(new Pair<Time, Event>(null, moveSpaceShip));
 			
-			//TODO also inform the GUI that the perspective must move, possibly differently from the spaceship
-			//the movement system does not do that, because it wont know that this is the spaceship
+			Event movePerspectiveAfterSpaceship = new MovePerspectiveEvent(pDiff);
+			retu.add(new Pair<Time,Event>(null,movePerspectiveAfterSpaceship ));
 		}
 		
 		return retu;

@@ -1,7 +1,11 @@
 package de.apoth.anderoids.logic.events;
 
+import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeMap;
+
+import android.util.Pair;
 
 import de.apoth.anderoids.logic.Time;
 
@@ -129,22 +133,29 @@ public class EventManager {
 	}
 	public void addEvent(Event ev, Time t)
 	{
-		LinkedList<Event> itsList;
-		if(t.equals(this.currentTime)) // save some time
+		if(t== null || t.equals(this.currentTime))
 		{
-			itsList = currentEventSet;
+			this.addEventNow(ev);
 		}
 		else
 		{
-			itsList = this.storedEvents.get(t);
+			LinkedList<Event> itsList = this.storedEvents.get(t);
+			if(itsList == null)
+			{
+				assert(! this.storedEvents.containsKey(t));
+				itsList = new LinkedList<Event>();
+				this.storedEvents.put(t, itsList);
+			}
+			itsList.add(ev);
+		}
+	}
+	public void addAllEvents(Collection<Pair<Time, Event>> eventSet) {
+		if(eventSet == null)
+			return;
+		for(Pair<Time,Event> pev : eventSet)
+		{
+			this.addEvent(pev.second, pev.first);
 		}
 		
-		if(itsList == null)
-		{
-			assert(! this.storedEvents.containsKey(t));
-			itsList = new LinkedList<Event>();
-			this.storedEvents.put(t, itsList);
-		}
-		itsList.add(ev);
 	}
 }

@@ -31,12 +31,10 @@ public class ConfigActivity extends Activity {
 		seekBar1.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				
 			}
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				
 			}
 			@TargetApi(Build.VERSION_CODES.GINGERBREAD)
@@ -44,7 +42,6 @@ public class ConfigActivity extends Activity {
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				
-				// TODO Auto-generated method stub
 				cfgEdit.putInt("dummyProgress", progress);
 				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
 				{

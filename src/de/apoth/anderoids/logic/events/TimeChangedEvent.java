@@ -25,7 +25,6 @@ public class TimeChangedEvent implements Event {
 	public boolean concernsSystem(Class systemClass) {
 		if(systemClass == RuleSystem.class)
 			return true;
-		// TODO Auto-generated method stub
 		return false;
 	}
 

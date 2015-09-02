@@ -21,14 +21,14 @@ public class GameLogic{
 	 * how long is the time between two logicticks supposed to be in milliseconds
 	 */
 	public static final int tickIntervallMsec = 50;
-	//private long passedTime;
-	private int numTicks = 0;
 	private static GameLogic obj;
 	private Integer playersSpaceShipID;
 	private MovementSystem myMovementSystem;
 	private CollisionSystem myCollisionSystem;
 	private RuleSystem myRuleSystem;
 	private GuiStubSystem myGuiStub;
+	//contains all systems for convenience
+	private LinkedList<AbstractSystem> _allMySystems;
 	private EntityManager myEntityManager;
 	private EventManager myEventManager;
 	private float[] currentDeviceAngle = null;
@@ -40,7 +40,6 @@ public class GameLogic{
 	{
 		obj = GameLogic.get();
 		activeGameMode = gameMode;
-//		RuleSystem.setup(gameMode);
 		Entity spaceShip = EntityCreator.makeSpaceShip(shipType);
 		
 		obj.playersSpaceShipID = obj.myEntityManager.addEntity(spaceShip);
@@ -56,33 +55,45 @@ public class GameLogic{
 	private GameLogic()
 	{
 		assert(_isSetup);
-//		this.numTicks = 0;
+		this._allMySystems = new LinkedList<AbstractSystem>();
 		this.currentTime = new Time(0.0f);
 		this.currentDeviceAngle = new float[3];
 		
-		this.myCollisionSystem = new CollisionSystem();
-		this.myMovementSystem = new MovementSystem();
-		this.myEntityManager = new EntityManager(myMovementSystem,myCollisionSystem);
 		this.myEventManager = new EventManager();
-		this.myGuiStub = new GuiStubSystem();
+		this.myEntityManager = new EntityManager();
+		
+		this.myCollisionSystem = new CollisionSystem(myEntityManager);
+		_allMySystems.add(myCollisionSystem);
+		this.myMovementSystem = new MovementSystem(myEntityManager);
+		_allMySystems.add(myMovementSystem);
+		
+		
+		this.myGuiStub = new GuiStubSystem(myEntityManager);
+		_allMySystems.add(myGuiStub);
 		if(activeGameMode == GameModes.Hunt)
-			this.myRuleSystem = new HuntRuleSystem();
+			this.myRuleSystem = new HuntRuleSystem(myEntityManager);
 		else
-			this.myRuleSystem = new SurvivalRuleSystem();
+			this.myRuleSystem = new SurvivalRuleSystem(myEntityManager);
+		_allMySystems.add(myRuleSystem);
 	}
 	
 	
 	
 	public synchronized void executeEventsUntilNow()
 	{
-		Event ev = this.myEventManager.getCurrentEvent();
-		if(ev == null)
-			return;
-		if(ev.concernsSystem(MovementSystem.class))
-			this.myMovementSystem.handleEvent(ev);
-		if(ev.concernsSystem(CollisionSystem.class))
-			this.myCollisionSystem.handleEvent(ev);
-		return;
+		while(true)
+		{
+			Event ev = this.myEventManager.getCurrentEvent();
+			if(ev == null)
+				return;
+			for(AbstractSystem sys : this._allMySystems)
+			{
+				if(ev.concernsSystem(sys.getClass()))
+				{
+					this.myEventManager.addAllEvents(sys.handleEvent(ev));
+				}
+			}
+		}
 	}
 	
 	public Time getCurrentTime()
@@ -112,7 +123,6 @@ public class GameLogic{
 	 * @return
 	 */
 	public synchronized LinkedList<GuiUpdateEvent> getVisibleChanges(int spaceShipID) {
-		// TODO Auto-generated method stub
 		LinkedList<GuiUpdateEvent> retu = new LinkedList<GuiUpdateEvent>();
 		//retu.add(new TimeChangeMessage(this.getPassedTime()));
 	//	retu.add(new LogicStepCountMessage(this.getNumTicks()));

@@ -4,18 +4,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.util.Pair;
+import de.apoth.anderoids.logic.entities.EntityManager;
 import de.apoth.anderoids.logic.entities.MovementComponent;
 import de.apoth.anderoids.logic.events.Event;
 
 public class MovementSystem extends AbstractSystem {
 
-	public MovementSystem() 
-	{
-		super(MovementComponent.class);
+	public MovementSystem(EntityManager myEM) {
+		super(myEM);
 	}
 
-	public void moveObject(Integer objectId, Position mment) {
-		MovementComponent pc = (MovementComponent) this.getComponent(objectId);
+	private void moveObject(Integer objectId, Position mment) {
+		
+		MovementComponent pc = (MovementComponent) this.myEntityManager.getComponent(
+				objectId, MovementComponent.class);
+		
 		
 		if(pc == null) //object not found for whatever reason
 			return;

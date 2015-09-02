@@ -8,19 +8,23 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.util.Pair;
 import de.apoth.anderoids.logic.entities.Component;
+import de.apoth.anderoids.logic.entities.EntityManager;
 import de.apoth.anderoids.logic.events.Event;
 
 @SuppressLint("Assert")
 public abstract class AbstractSystem {
 	
 	/**
+	 * @Deprecated
 	 * contains the components which each system handles. For each system, 
 	 * these components should always have the same type
 	 */
 	private HashMap<Integer, Component> components;
+	protected EntityManager myEntityManager;
 	
-	//TODO generic class einschraenken should be parameterized. ???
+	// handled componentsystem ist dummscheiss, die systeme sollen eine referenz zum entitymanager haben und die holen
 	private Class handledComponents;
+/*	@Deprecated
 	protected AbstractSystem(Class hComp)
 	{
 		//disable the component table, for eg rulesets, that dont store anything specific
@@ -30,34 +34,12 @@ public abstract class AbstractSystem {
 			this.handledComponents = hComp;
 			this.components = new HashMap<Integer, Component>();
 		}
-	}
-	public void addComponent(Integer id, Component comp)
+	}*/
+	public AbstractSystem(EntityManager myEM)
 	{
-		assert(! components.containsKey(id));
-		assert(handledComponents == comp.getClass());
-		this.components.put(id,comp);
+		this.myEntityManager = myEM;
 	}
-	public Component getComponent(Integer id)
-	{
-		Component retu = this.components.get(id);
-		if(retu == null)
-			return null;
-		
-		assert(retu.getClass() == this.handledComponents);
-		if(! retu.isValid())
-		{
-			this.components.remove(id);
-			return null;
-		}
-		else
-		{
-			return retu;
-		}
-	}
+
 	public abstract List<Pair<Time,Event>> handleEvent(Event ev);
 	
-	public Collection<Component> getComponents()
-	{
-		return this.components.values();
-	}
 }

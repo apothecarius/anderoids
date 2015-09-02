@@ -18,10 +18,11 @@ public class EntityManager {
 	//contains the highest key, ever given, 
 	//so in case freeKeys is empty, use largestKey+1 and increment
 	private Integer largestKey = 0;
-	
-	
+	/*
+	@Deprecated
 	private MovementSystem hisMovementSystem = null;
-	private CollisionSystem hisCollisionSystem = null;
+	@Deprecated
+	private CollisionSystem hisCollisionSystem = null;*/
 	
 /*	public static EntityManager get()
 	{
@@ -29,12 +30,25 @@ public class EntityManager {
 			obj = new EntityManager();
 		return obj;
 	}*/
+	
+	/**
+	 * @Deprecated the entitymanager should not know about the other systems.
+	 * Instead give the systems a reference to this entitymanager, from which they will then retrieve components from 
+	 * @param mo
+	 * @param co
+	 */
+	
 	public EntityManager(MovementSystem mo, CollisionSystem co)
 	{
 		entities = new HashMap<Integer, Entity>();
 		freeKeys = new LinkedList<Integer>();
-		hisCollisionSystem = co;
+/*		hisCollisionSystem = co;
 		hisMovementSystem = mo;
+*/	}
+	public EntityManager()
+	{
+		entities = new HashMap<Integer, Entity>();
+		freeKeys = new LinkedList<Integer>();
 	}
 /*	private boolean _logicSystemsSet = false;
 	public void setLogicSystems(MovementSystem mo, CollisionSystem co)
@@ -58,9 +72,17 @@ public class EntityManager {
 	
 	public Entity getEntity(Integer id)
 	{
+		//TODO optimize, add a member referencing the last requested Entity, because the same one could be used by multiple systems
 		Entity retu = this.entities.get(id);
 		assert(retu != null);
 		return retu;
+	}
+	public Component getComponent(Integer id, Class comp)
+	{
+		//TODO optimize
+		Entity e = this.getEntity(id);
+		e.containsKey(comp);
+		return e.get(comp);
 	}
 	public Integer addEntity(Entity ent)
 	{
@@ -76,18 +98,6 @@ public class EntityManager {
 		}
 		assert(! this.entities.containsKey(key));
 		this.entities.put(key, ent);
-		
-		if(ent.containsKey(MovementComponent.class))
-		{
-			this.hisMovementSystem.addComponent(key, ent.get(MovementComponent.class));
-		}
-		if(ent.containsKey(CollisionComponent.class))
-		{
-			this.hisCollisionSystem.addComponent(key, ent.get(CollisionComponent.class));
-		}
-		//TODO add components as added
-		
-		
 		
 		return key;
 	}

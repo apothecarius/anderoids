@@ -90,7 +90,6 @@ public class SpaceActivity extends Activity implements SensorEventListener{
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
 		
 	}
 

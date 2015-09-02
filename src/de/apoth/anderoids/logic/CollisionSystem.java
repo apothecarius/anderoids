@@ -7,14 +7,15 @@ import java.util.Set;
 import android.util.Pair;
 
 import de.apoth.anderoids.logic.entities.CollisionComponent;
+import de.apoth.anderoids.logic.entities.EntityManager;
 import de.apoth.anderoids.logic.events.CollisionEvent;
 import de.apoth.anderoids.logic.events.Event;
 
 public class CollisionSystem extends AbstractSystem{
 	
-	public CollisionSystem()
-	{
-		super(CollisionComponent.class);
+	public CollisionSystem(EntityManager myEM) {
+		super(myEM);
+		// TODO Auto-generated constructor stub
 	}
 
 	public Set<CollisionEvent> checkCollisions() {
@@ -29,8 +30,6 @@ public class CollisionSystem extends AbstractSystem{
 	@Override
 	public List<Pair<Time, Event>> handleEvent(Event ev) {
 		return null;
-		// TODO Auto-generated method stub
-		
 	}
 	
 }
