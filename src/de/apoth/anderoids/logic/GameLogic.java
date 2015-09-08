@@ -2,6 +2,8 @@ package de.apoth.anderoids.logic;
 
 import java.util.LinkedList;
 
+import android.util.Log;
+
 import de.apoth.anderoids.logic.entities.Entity;
 import de.apoth.anderoids.logic.entities.EntityCreator;
 import de.apoth.anderoids.logic.entities.EntityManager;
@@ -35,14 +37,16 @@ public class GameLogic{
 	private Time currentTime;
 	private static GameModes activeGameMode;
 	private static boolean _isSetup = false;
+	private static Difficulties activeDifficulty;
+	//TODO replace with a list containing the ship details for each player
+	private static ShipTypes thisPlayersShiptype;
 	
 	public static void setup(GameModes gameMode, ShipTypes shipType, Difficulties difficulty)
 	{
-		obj = GameLogic.get();
 		activeGameMode = gameMode;
-		Entity spaceShip = EntityCreator.makeSpaceShip(shipType);
+		activeDifficulty = difficulty;
+		thisPlayersShiptype = shipType;
 		
-		obj.playersSpaceShipID = obj.myEntityManager.addEntity(spaceShip);
 		_isSetup = true;
 	}
 	
@@ -59,14 +63,13 @@ public class GameLogic{
 		this.currentTime = new Time(0.0f);
 		this.currentDeviceAngle = new float[3];
 		
-		this.myEventManager = new EventManager();
+		this.myEventManager = new EventManager(this.currentTime);
 		this.myEntityManager = new EntityManager();
 		
 		this.myCollisionSystem = new CollisionSystem(myEntityManager);
 		_allMySystems.add(myCollisionSystem);
 		this.myMovementSystem = new MovementSystem(myEntityManager);
 		_allMySystems.add(myMovementSystem);
-		
 		
 		this.myGuiStub = new GuiStubSystem(myEntityManager);
 		_allMySystems.add(myGuiStub);
@@ -75,6 +78,11 @@ public class GameLogic{
 		else
 			this.myRuleSystem = new SurvivalRuleSystem(myEntityManager);
 		_allMySystems.add(myRuleSystem);
+		
+		//TODO supposed to be reaction to an event (maybe?)
+		Entity spaceShip = EntityCreator.makeSpaceShip(this.thisPlayersShiptype);
+		this.playersSpaceShipID = this.myEntityManager.addEntity(spaceShip);
+		//TODO send event to GUI that its supposed to follow this spaceship
 	}
 	
 	
@@ -122,23 +130,8 @@ public class GameLogic{
 	 * @param spaceShipID
 	 * @return
 	 */
-	public synchronized LinkedList<GuiUpdateEvent> getVisibleChanges(int spaceShipID) {
-		LinkedList<GuiUpdateEvent> retu = new LinkedList<GuiUpdateEvent>();
-		//retu.add(new TimeChangeMessage(this.getPassedTime()));
-	//	retu.add(new LogicStepCountMessage(this.getNumTicks()));
-		
-		
-		//fuege alle sichtbarkeitsaenderungen hinzu (um ram zu sparen)
-		
-		//fuege alle explosionen/objektzerstörungen hinzu
-		
-		//fuege alle logikbedingten grafikeffekte hinzu (schildaufleuchten zb)
-		
-		//fuege alle absoluten positionsaenderungen hinzu
-		
-		//fuege alle aenderungen am schwung von objekten hinzu
-				
-		return retu;
+	public synchronized LinkedList<Event> getVisibleChanges(int spaceShipID) {
+		return this.myGuiStub.popAllGuiEvents();
 	}
 
 	public Integer getMySpaceShipID() {

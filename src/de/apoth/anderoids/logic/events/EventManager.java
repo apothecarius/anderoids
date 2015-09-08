@@ -18,9 +18,10 @@ public class EventManager {
 
 	private Time currentTime = null;
 	
-	public EventManager()
+	public EventManager(Time now)
 	{
 		storedEvents = new TreeMap<Time, LinkedList<Event>>();
+		this.currentTime = now;
 	}
 	/**
 	 * for each point in time that events are logged an entry into the hashmap is made
@@ -60,7 +61,7 @@ public class EventManager {
 	 */
 	public void increaseTimeTo(Time newTime)
 	{
-		assert(newTime.t >= this.currentTime.t);
+		assert newTime.t >= this.currentTime.t;
 		this.currentTime = newTime;
 		if(this.currentEventSet == null)
 		{
@@ -68,12 +69,52 @@ public class EventManager {
 			//update currentEventSet
 			if(lowestKey.t <= this.currentTime.t)
 			{
-				assert(this.currentEventSet.isEmpty());
+				assert this.currentEventSet.isEmpty();
 				this.currentEventSet = this.storedEvents.get(lowestKey);
 			}
 		}
 	}
 	
+	
+	private LinkedList<Event>getCurrentEventSet()
+	{
+		if(this.currentEventSet != null && this.currentEventSet.isEmpty())
+			this.currentEventSet = null;
+		if(this.currentEventSet == null)
+		{
+			//check if there is a set of events before the set time
+			boolean searchDone = false;
+			do
+			{
+				if(this.storedEvents.isEmpty())
+				{
+					return null;
+				}
+				Time leastKey = this.storedEvents.firstKey();
+				if(leastKey.t < this.currentTime.t)
+				{
+					this.currentEventSet = this.storedEvents.get(leastKey);
+					assert this.currentEventSet != null;
+					if(this.currentEventSet.isEmpty())
+					{
+						storedEvents.remove(leastKey);
+						this.currentEventSet = null;
+					}
+					else //found nonempty list
+					{
+						searchDone = true;
+					}
+				}
+				else //next events lie in the future
+				{
+					//leave at null and do nothing
+					searchDone = true;
+				}
+			}while(! searchDone);
+		}
+		//can be null
+		return this.currentEventSet;
+	}
 	/**
 	 * will return events from the buffer until the key for it is exceeded by this.currentTime
 	 * then null will be returned
@@ -81,10 +122,21 @@ public class EventManager {
 	 */
 	public Event getCurrentEvent()
 	{
-		assert(currentEventSet == null || !currentEventSet.isEmpty());
-		Event retu;
-		if(this.currentEventSet != null)
+	//	assert currentEventSet == null || !currentEventSet.isEmpty();
+		LinkedList<Event> evl = this.getCurrentEventSet();
+		if(evl != null)
 		{
+			assert ! evl.isEmpty();
+			Event retu = evl.getFirst();
+			evl.removeFirst();
+			return retu;
+		}
+		else 
+			return null;
+					
+		/*if(this.currentEventSet != null)
+		{
+			assert ! currentEventSet.isEmpty();
 			retu = currentEventSet.getFirst();
 			currentEventSet.removeFirst();
 			if(currentEventSet.isEmpty())
@@ -99,7 +151,8 @@ public class EventManager {
 			if(leastKey.t < this.currentTime.t)
 			{
 				this.currentEventSet = this.storedEvents.get(leastKey);
-				assert(this.currentEventSet != null); 
+				assert this.currentEventSet != null; 
+				assert ! this.currentEventSet.isEmpty();
 				retu = this.getCurrentEvent();
 			}
 			else //nothing to do here
@@ -111,16 +164,19 @@ public class EventManager {
 		{
 			retu = null;
 		}
+		assert this.currentEventSet == null || ! this.currentEventSet.isEmpty();
+
 		
-		
-		assert(currentEventSet == null || !currentEventSet.isEmpty());		
-		return retu;
+		assert currentEventSet == null || !currentEventSet.isEmpty();*/		
 	}
 	public void addEventNow(Event ev) {
-		if(this.currentEventSet != null)
+		if(ev == null)
+		{
+			
+		}
+		else if(this.currentEventSet != null)
 		{
 			this.currentEventSet.add(ev);
-			return;
 		}
 		else
 		{
@@ -128,11 +184,13 @@ public class EventManager {
 			newList.add(ev);
 			this.currentEventSet = newList;
 			this.storedEvents.put(this.currentTime, newList);
-			return;
 		}
+		assert ev == null || this.currentEventSet != null ;
 	}
 	public void addEvent(Event ev, Time t)
 	{
+		if(ev == null)
+			return;
 		if(t== null || t.equals(this.currentTime))
 		{
 			this.addEventNow(ev);
@@ -142,11 +200,13 @@ public class EventManager {
 			LinkedList<Event> itsList = this.storedEvents.get(t);
 			if(itsList == null)
 			{
-				assert(! this.storedEvents.containsKey(t));
+				assert ! this.storedEvents.containsKey(t);
 				itsList = new LinkedList<Event>();
 				this.storedEvents.put(t, itsList);
 			}
 			itsList.add(ev);
+			
+			itsList = storedEvents.get(t);
 		}
 	}
 	public void addAllEvents(Collection<Pair<Time, Event>> eventSet) {
@@ -158,4 +218,5 @@ public class EventManager {
 		}
 		
 	}
+	
 }

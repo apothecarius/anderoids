@@ -9,7 +9,7 @@ import de.apoth.anderoids.logic.GameModes;
 import de.apoth.anderoids.logic.GuiUpdateEvent;
 import de.apoth.anderoids.logic.Position;
 import de.apoth.anderoids.logic.ShipTypes;
-import de.apoth.anderoids.logic.Messages.ChangeSetAssembler;
+import de.apoth.anderoids.logic.events.Event;
 import de.apoth.anderoids.logic.input.AccelerometerSystem;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,7 +29,7 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 	long passedTime;
 	
 	private static Rect screenRect;
-
+	Integer mySpaceShipID = 0;//the perspective follows this object
 	private static final int amountStars = 120;
 	ArrayList<Star> stars;
 	private GraphicSpaceship mySpaceship;
@@ -89,7 +89,7 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 		this.mySpaceship.draw(canvas, m);
 		
 	}
-	protected void updateObjects(List<GuiUpdateEvent> changes)
+	protected void updateObjects(List<Event> changes)
 	{
 		//die ersten zwei nachrichten abfragen
 		//die erste ist immer die TimeChangeMessage
@@ -160,11 +160,11 @@ public class SpaceView extends SurfaceView implements SurfaceHolder.Callback
 				
 				GameLogic.get().setDeviceAngle(this.myAccelerometerSystem.getDeviceAngle());
 				//TODO measure time it took the device to render a frame and adjust gamelogic stepsize
-				GameLogic.get().elapseTime();
-				GameLogic.get().executeEventsUntilNow();
+				//GameLogic.get().elapseTime();
+				//GameLogic.get().executeEventsUntilNow();
 				
 				//GameLogic.get().getMySpaceShipID();
-				_panel.updateObjects(ChangeSetAssembler.getChanges(GameLogic.get().getMySpaceShipID()));
+				_panel.updateObjects(GameLogic.get().getVisibleChanges(_panel.mySpaceShipID));
 				
 				c = null;
 				

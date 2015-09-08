@@ -1,6 +1,6 @@
 package de.apoth.anderoids.logic;
 
-public class Time {
+public class Time implements Comparable<Time>{
 	public float t;
 	public Time(float t)
 	{
@@ -29,6 +29,16 @@ public class Time {
 		else
 			return new Time(d);
 		
+	}
+
+	@Override
+	public int compareTo(Time another) {
+		if(this.t < another.t)
+			return -1;
+		else if(this.t == another.t)
+			return 0;
+		else
+			return 1;
 	}
 	
 }
