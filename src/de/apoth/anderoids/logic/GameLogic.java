@@ -9,6 +9,7 @@ import de.apoth.anderoids.logic.entities.EntityCreator;
 import de.apoth.anderoids.logic.entities.EntityManager;
 import de.apoth.anderoids.logic.events.Event;
 import de.apoth.anderoids.logic.events.EventManager;
+import de.apoth.anderoids.logic.events.GameStartedEvent;
 import de.apoth.anderoids.logic.events.TimeChangedEvent;
 
 /**
@@ -74,15 +75,20 @@ public class GameLogic{
 		this.myGuiStub = new GuiStubSystem(myEntityManager);
 		_allMySystems.add(myGuiStub);
 		if(activeGameMode == GameModes.Hunt)
-			this.myRuleSystem = new HuntRuleSystem(myEntityManager);
+			this.myRuleSystem = new HuntRuleSystem(myEntityManager,activeDifficulty);
 		else
-			this.myRuleSystem = new SurvivalRuleSystem(myEntityManager);
+			this.myRuleSystem = new SurvivalRuleSystem(myEntityManager,activeDifficulty);
 		_allMySystems.add(myRuleSystem);
 		
+		//TODO send event to GUI that its supposed to follow this spaceship
 		//TODO supposed to be reaction to an event (maybe?)
+		//because there will be multiple spaceships but only one gamelogic
+		//but for now this works
 		Entity spaceShip = EntityCreator.makeSpaceShip(this.thisPlayersShiptype);
 		this.playersSpaceShipID = this.myEntityManager.addEntity(spaceShip);
-		//TODO send event to GUI that its supposed to follow this spaceship
+
+		
+		this.myEventManager.addEventNow(new GameStartedEvent());
 	}
 	
 	

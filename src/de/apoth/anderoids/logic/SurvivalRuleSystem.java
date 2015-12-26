@@ -8,4 +8,9 @@ public class SurvivalRuleSystem extends RuleSystem {
 		super(myEM);
 	}
 
+	public SurvivalRuleSystem(EntityManager myEntityManager,
+			Difficulties activeDifficulty) {
+		super(myEntityManager, activeDifficulty);
+	}
+
 }

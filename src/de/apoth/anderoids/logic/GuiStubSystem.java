@@ -10,6 +10,7 @@ import de.apoth.anderoids.logic.events.Event;
 /**
  * 
  * this system stores and possibly combines events for the GUI
+ * It should also make the GUI forget about objects that move out of perspective
  * @author apoth
  *
  */

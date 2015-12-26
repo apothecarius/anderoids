@@ -75,45 +75,50 @@ public class EventManager {
 		}
 	}
 	
-	
+	/**
+	 * returns a set of events before this.currentTime
+	 * or null, if none exists or it is empty
+	 * @return
+	 */
 	private LinkedList<Event>getCurrentEventSet()
 	{
 		if(this.currentEventSet != null && this.currentEventSet.isEmpty())
 			this.currentEventSet = null;
-		if(this.currentEventSet == null)
+		if(this.currentEventSet != null)
+			return this.currentEventSet;
+	
+		//check if there is a set of events before the set time
+		do
 		{
-			//check if there is a set of events before the set time
-			boolean searchDone = false;
-			do
+			if(this.storedEvents.isEmpty())
 			{
-				if(this.storedEvents.isEmpty())
+				return null;
+			}
+			Time leastKey = this.storedEvents.firstKey();
+			if(leastKey.t < this.currentTime.t)
+			{
+				this.currentEventSet = this.storedEvents.get(leastKey);
+				assert this.currentEventSet != null;
+				if(this.currentEventSet.isEmpty())
 				{
-					return null;
+					storedEvents.remove(leastKey);
+					this.currentEventSet = null;
 				}
-				Time leastKey = this.storedEvents.firstKey();
-				if(leastKey.t < this.currentTime.t)
+				else //found nonempty list
 				{
-					this.currentEventSet = this.storedEvents.get(leastKey);
-					assert this.currentEventSet != null;
-					if(this.currentEventSet.isEmpty())
-					{
-						storedEvents.remove(leastKey);
-						this.currentEventSet = null;
-					}
-					else //found nonempty list
-					{
-						searchDone = true;
-					}
+					return this.currentEventSet;
 				}
-				else //next events lie in the future
-				{
-					//leave at null and do nothing
-					searchDone = true;
-				}
-			}while(! searchDone);
+			}
+			else //next events lie in the future
+			{
+				return null;
+			}
 		}
-		//can be null
-		return this.currentEventSet;
+		while(! this.currentEventSet.isEmpty());
+	
+	//can be null, but actually should not reach this point
+	assert false; //remove if reached, does not hurt
+	return this.currentEventSet;
 	}
 	/**
 	 * will return events from the buffer until the key for it is exceeded by this.currentTime
@@ -131,48 +136,13 @@ public class EventManager {
 			evl.removeFirst();
 			return retu;
 		}
-		else 
-			return null;
-					
-		/*if(this.currentEventSet != null)
-		{
-			assert ! currentEventSet.isEmpty();
-			retu = currentEventSet.getFirst();
-			currentEventSet.removeFirst();
-			if(currentEventSet.isEmpty())
-			{
-				currentEventSet = null;
-			}
-		}
-		else if(! this.storedEvents.isEmpty())
-		{
-			//check if there is a set of events before the set time
-			Time leastKey = this.storedEvents.firstKey();
-			if(leastKey.t < this.currentTime.t)
-			{
-				this.currentEventSet = this.storedEvents.get(leastKey);
-				assert this.currentEventSet != null; 
-				assert ! this.currentEventSet.isEmpty();
-				retu = this.getCurrentEvent();
-			}
-			else //nothing to do here
-			{
-				retu = null;
-			}
-		}
 		else
-		{
-			retu = null;
-		}
-		assert this.currentEventSet == null || ! this.currentEventSet.isEmpty();
-
-		
-		assert currentEventSet == null || !currentEventSet.isEmpty();*/		
+			return null;
 	}
 	public void addEventNow(Event ev) {
 		if(ev == null)
 		{
-			
+			return;
 		}
 		else if(this.currentEventSet != null)
 		{
@@ -185,7 +155,7 @@ public class EventManager {
 			this.currentEventSet = newList;
 			this.storedEvents.put(this.currentTime, newList);
 		}
-		assert ev == null || this.currentEventSet != null ;
+		assert ev == null || this.currentEventSet != null;
 	}
 	public void addEvent(Event ev, Time t)
 	{

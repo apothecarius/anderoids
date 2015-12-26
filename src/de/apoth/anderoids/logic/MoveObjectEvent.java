@@ -17,6 +17,8 @@ public class MoveObjectEvent implements Event {
 	public boolean concernsSystem(Class systemClass) {
 		if(systemClass == MovementSystem.class)
 			return true;
+		if(systemClass == GuiStubSystem.class)
+			return true;
 		return false;
 	}
 

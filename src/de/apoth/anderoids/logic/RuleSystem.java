@@ -10,10 +10,15 @@ import de.apoth.anderoids.logic.events.TimeChangedEvent;
 
 public class RuleSystem extends AbstractSystem {
 
-	
+	protected Difficulties difficultySetting;
 
 	public RuleSystem(EntityManager myEM) {
 		super(myEM);
+	}
+	public RuleSystem(EntityManager myEM,Difficulties diff)
+	{
+		super(myEM);
+		this.difficultySetting = diff;
 	}
 
 	@Override

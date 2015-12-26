@@ -8,4 +8,9 @@ public class HuntRuleSystem extends RuleSystem{
 		super(myEM);
 	}
 
+	public HuntRuleSystem(EntityManager myEntityManager,
+			Difficulties activeDifficulty) {
+		super(myEntityManager,activeDifficulty);
+	}
+
 }
