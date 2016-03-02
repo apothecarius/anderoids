@@ -1,0 +1,98 @@
+[
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/aim.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/aim.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/fighter.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/fighter.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_hard_pressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_hard_pressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/joystick_unpressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/joystick_unpressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_easy_pressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_easy_pressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/ic_launcher.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/cog_unpressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/cog_unpressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/trophy_unpressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/trophy_unpressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_medium_pressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_medium_pressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/joystick.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/joystick.xml"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/cog_pressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/cog_pressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/trophy.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/trophy.xml"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/cog.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/cog.xml"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_easy.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_easy.xml"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/trophy_pressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/trophy_pressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_easy_unpressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_easy_unpressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/clock.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/clock.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/joystick_pressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/joystick_pressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_medium_unpressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_medium_unpressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/asteroids_background.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/asteroids_background.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_hard.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_hard.xml"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/stara.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/stara.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_hard_unpressed.png",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_hard_unpressed.png"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/drawable-hdpi-v4/start_medium.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/drawable-hdpi/start_medium.xml"
+    }
+]

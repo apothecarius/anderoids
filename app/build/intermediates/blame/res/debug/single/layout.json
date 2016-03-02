@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/layout/activity_config.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/layout/activity_config.xml"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/layout/activity_score.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/layout/activity_score.xml"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/layout/activity_menu.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/layout/activity_menu.xml"
+    },
+    {
+        "merged": "/home/apoth/StudioProjects/anderoids/app/build/intermediates/res/merged/debug/layout/activity_startgame.xml",
+        "source": "/home/apoth/StudioProjects/anderoids/app/src/main/res/layout/activity_startgame.xml"
+    }
+]
